@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Usuarios</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container-fluid text-center">
+    <h1>Administrar Usuarios</h1>
+    <div class="mb-3">
+        <a class="h3 link-primary" th:href="@{/users/new}">Añadir usuario</a>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="user: ${listUsers}">
+                <tr>
+                    <td>[[${user.id}]]</td>
+                    <td>[[${user.email}]]</td>
+                    <td>[[${user.firstName}]]</td>
+                    <td>[[${user.lastName}]]</td>
+                    <td>
+                        <!--/* otra forma sería: th:href="@{'/users/edit?id=' + ${user.id}}" */-->
+                        <a class="h4 mr-3 link-primary" th:href="@{'/users/edit/' + ${user.id}}">Editar</a>
+                        <a class="h4 mr-3 link-primary" th:href="@{'/users/delete/' + ${user.id}}">Eliminar</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

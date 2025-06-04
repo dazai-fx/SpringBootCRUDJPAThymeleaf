@@ -15,21 +15,22 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(false)
+@DataJpaTest// Prueba solo de la capa JPA (entidades y repositorios)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // Usa la base de datos real definida en application.properties (no la H2 en memoria)
+@Rollback(false) //  No revierte los cambios al finalizar el test (guarda en la base de datos)
 public class UserRepositoryTest {
-    @Autowired
+
+    @Autowired // Inyecta el repositorio para hacer pruebas con él
     private UserRepository repo;
 
     @Test
     void testAddUser() {
 
         User user = new User();
-        user.setEmail("jspro.com");
+        user.setEmail("klopezfj@gmail.com");
         user.setPassword("123456");
-        user.setFirstName("pro");
-        user.setLastName("js");
+        user.setFirstName("karl ");
+        user.setLastName("López");
 
         User savedUser = repo.save(user);
 
@@ -59,10 +60,32 @@ public class UserRepositoryTest {
 
         Optional<User> optionalUser= repo.findById(userId);
 
+        User user = optionalUser.get();
 
+        user.setPassword("hellooooo");
+        repo.save(user);
 
+        User updatedUser = repo.findById(userId).get();
 
+        Assertions.assertEquals("hellooooo", updatedUser.getPassword());
 
+    }
+
+    @Test
+    void testGet(){
+        Integer userId = 1;
+        Optional<User> optionalUser= repo.findById(userId);
+        assertThat(optionalUser.isPresent()).isTrue();
+        System.out.println(optionalUser.get());
+
+    }
+
+    @Test
+    void testDelete(){
+        Integer userId = 2;
+        repo.deleteById(userId);
+        Optional<User> optionalUser= repo.findById(userId);
+        assertThat(optionalUser.isPresent()).isFalse();
     }
 
 
