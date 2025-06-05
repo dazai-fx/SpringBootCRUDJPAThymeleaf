@@ -11,6 +11,9 @@
     <div class="mb-3">
         <a class="h3 link-primary" th:href="@{/users/new}">Añadir usuario</a>
     </div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
     <div>
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -19,16 +22,19 @@
                     <th>Email</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
+                    <th>Enabled</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
             <th:block th:each="user: ${listUsers}">
                 <tr>
+                    <!--/* otra forma sería: <td>th:text="${user.id}"</td> */-->
                     <td>[[${user.id}]]</td>
                     <td>[[${user.email}]]</td>
                     <td>[[${user.firstName}]]</td>
                     <td>[[${user.lastName}]]</td>
+                    <td>[[${user.enabled}]]</td>
                     <td>
                         <!--/* otra forma sería: th:href="@{'/users/edit?id=' + ${user.id}}" */-->
                         <a class="h4 mr-3 link-primary" th:href="@{'/users/edit/' + ${user.id}}">Editar</a>
